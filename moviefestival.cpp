@@ -1,26 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
-int main()
-{
+typedef long long ll;
 
-    int n;
+int solve()
+{
+    ll n;
     cin >> n;
-    vector<pair<int, int>> v;
-    for (int i = 0; i < n; i++)
+    vector<pair<ll, ll>> t(n);
+    for (ll i = 0; i < n; i++)
     {
-        int a, b;
-        cin >> a >> b;
-        v.push_back({a, 1});
-        v.push_back({b, -1});
+        cin >> t[i].first >> t[i].second;
     }
-    sort(v.begin(), v.end());
-    int ans = 0;
-    int cnt = 0;
-    for (int i = 0; i < v.size(); i++)
+    sort(t.begin(), t.end());
+
+    ll ans = 0, current = 0;
+    for (ll i = 0; i < n; i++)
     {
-        cnt += v[i].second;
-        ans = max(ans, cnt);
+        // first movie ka start time add krdo
+        if (i == 0)
+        {
+            current = t[i].second;
+            ans++;
+        }
+        else
+        {
+            // movie ka start time agar current se jyada hai toh usko add karo
+            if (t[i].first >= current)
+            {
+                current = t[i].second;
+                ans++;
+            }
+            else
+            { // next movie ka agar end time kaam hai toh usko update karo
+                current = min(current, t[i].second);
+            }
+        }
     }
     cout << ans << endl;
+    return 0;
+}
+int main()
+{
+    int testCase = 1;
+    while (testCase--)
+    {
+        solve();
+    }
     return 0;
 }
